@@ -77,7 +77,6 @@ def dfs(array,value)
 	stack = [bst.first]
 	marked = [nil, bst.first]
 	result = bst.first
-	#return "ERROR"
 	catch(:result) do
 		until result.value == value
 			until marked.include?(stack.last.left_child) && marked.include?(stack.last.right_child)
@@ -99,30 +98,24 @@ def dfs(array,value)
 		end
 	end
 	result.value == value ? (p result) : (p nil)
-=begin		
-				if (stack.last.left_child != nil && !marked.include?(stack.last.left_child)) || (stack.last.right_child != nil && !marked.include?(stack.last.right_child))
-			if stack.last.left_child != nil
-				left_child = stack.last.left_child
-				stack << left_child
-				result = left_child
-				marked << left_child
-				p left_child,stack.last,result,marked.last
-			elsif stack.last.right_child != nil
-				right_child = stack.last.right_child
-				stack << right_child
-				result = right_child
-				marked << right_child
-				p right_child,stack.last,result
-				p marked
-			end
-		else
-			stack.delete(stack.last)
-		end
-		stack.each { |s| p s.value}
-=end
 end
+
+def dfs_rec(built_tree,value,node=built_tree.first, marked=[nil,built_tree.first])
+	return p node if node.value == value
+	return p nil if marked.include?(built_tree)
+
+	if node.left_child != nil && !marked.include?(node.left_child)
+		marked << node.left_child
+		dfs_rec(built_tree,value,node.left_child, marked)
+	elsif node.right_child != nil && !marked.include?(node.right_child)
+		marked << node.right_child
+		dfs_rec(built_tree,value,node.right_child, marked)
+	else
+		dfs_rec(built_tree,value,node.parent, marked)
+	end
+end
+
 array = (0..100).to_a.sample(10).uniq
 sample = array.sample
 p array,sample
-dfs(array,sample)
-bfs(array,sample)
+dfs_rec(build_tree(array),sample)
