@@ -42,10 +42,8 @@ def compare(one, two)
 end
 
 def build_tree_test
-	array = (0..100).to_a.sample(10).uniq
+	array = (0..100).to_a.sample(5).uniq
 	sample = array.sample
-	p array,sample
-	bfs(array,sample)
 end
 
 def bfs(array, value)
@@ -74,4 +72,57 @@ def bfs(array, value)
 	result.value == value ? (p result) : (p nil)
 end
 
-build_tree_test
+def dfs(array,value)
+	bst = build_tree(array)
+	stack = [bst.first]
+	marked = [nil, bst.first]
+	result = bst.first
+	#return "ERROR"
+	catch(:result) do
+		until result.value == value
+			until marked.include?(stack.last.left_child) && marked.include?(stack.last.right_child)
+				if stack.last.left_child != nil && !marked.include?(stack.last.left_child)
+						left_child = stack.last.left_child
+						stack << left_child
+						result = left_child
+						marked << left_child
+						throw :result if result.value == value
+				elsif stack.last.right_child != nil && !marked.include?(stack.last.right_child)
+						right_child = stack.last.right_child
+						stack << right_child
+						result = right_child
+						marked << right_child
+						throw :result if result.value == value
+				end
+			end
+			stack.delete(stack.last)
+		end
+	end
+	result.value == value ? (p result) : (p nil)
+=begin		
+				if (stack.last.left_child != nil && !marked.include?(stack.last.left_child)) || (stack.last.right_child != nil && !marked.include?(stack.last.right_child))
+			if stack.last.left_child != nil
+				left_child = stack.last.left_child
+				stack << left_child
+				result = left_child
+				marked << left_child
+				p left_child,stack.last,result,marked.last
+			elsif stack.last.right_child != nil
+				right_child = stack.last.right_child
+				stack << right_child
+				result = right_child
+				marked << right_child
+				p right_child,stack.last,result
+				p marked
+			end
+		else
+			stack.delete(stack.last)
+		end
+		stack.each { |s| p s.value}
+=end
+end
+array = (0..100).to_a.sample(10).uniq
+sample = array.sample
+p array,sample
+dfs(array,sample)
+bfs(array,sample)
