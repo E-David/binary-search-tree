@@ -118,4 +118,10 @@ end
 array = (0..100).to_a.sample(10).uniq
 sample = array.sample
 p array,sample
-dfs_rec(build_tree(array),sample)
+x = bfs(array,sample)
+y = dfs(array,sample)
+z = dfs_rec(build_tree(array),sample)
+
+a = x.value == y.value
+b = x.value == z.value
+p a == b
