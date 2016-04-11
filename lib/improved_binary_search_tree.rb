@@ -32,13 +32,13 @@ end
 def link(node, num)
 	if num < node.value
 		if node.left_child.nil?
-			node.left_child = Node.new(num)
+			node.left_child = Node.new(num, node)
 		else
 			link(node.left_child, num)
 		end
 	elsif num > node.value
 		if node.right_child.nil?
-			node.right_child = Node.new(num)
+			node.right_child = Node.new(num, node)
 		else
 			link(node.right_child, num)
 		end
@@ -95,12 +95,13 @@ end
 array = (0..100).to_a.sample(10).uniq
 sample = array.sample
 puts "array to sort: #{array}"
-puts "root: #{sample}"
+puts "root: #{array.first}"
 x = bfs(array,sample)
 y = dfs(array,sample)
 #z = dfs_rec(build_tree(array),sample)
 
 a = x.value == y.value
+p a
 x = build_tree(array)
 x.each {|y| puts y.to_s}
 #b = x.value == z.value
