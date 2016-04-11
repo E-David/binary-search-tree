@@ -11,10 +11,10 @@ class Node
 		# Put all instance variables of a node in an easily read string
 	def to_s
 		str = ""
-		str += "<Node: #{@value} "
-		str += "@parent: #{@parent.value} " if !@parent.nil?
-		str += "@left_child: #{@left_child.value} " if !@left_child.nil?
-		str += "@right_child: #{@right_child.value}>" if !@right_child.nil?
+		str += "Node: #{@value}"
+		str += " | @parent: #{@parent.value}" if !@parent.nil?
+		str += " | @left_child: #{@left_child.value}" if !@left_child.nil?
+		str += " | @right_child: #{@right_child.value}" if !@right_child.nil?
 		str
 	end
 
@@ -28,7 +28,6 @@ def build_tree(array)
 	end
 	arr
 end
-
 
 def link(node, num)
 	if num < node.value
@@ -69,7 +68,7 @@ def dfs(array,value)
 	bst = build_tree(array)
 	stack = [bst.first]
 	until stack.empty?
-		current = stack.shift
+		current = stack.pop
 		return current if current.value == value
 		stack << current.left_child unless current.left_child.nil?
 		stack << current.right_child unless current.right_child.nil?
@@ -95,14 +94,14 @@ end
 =end
 array = (0..100).to_a.sample(10).uniq
 sample = array.sample
-p array,sample
+puts "array to sort: #{array}"
+puts "root: #{sample}"
 x = bfs(array,sample)
 y = dfs(array,sample)
 #z = dfs_rec(build_tree(array),sample)
 
 a = x.value == y.value
-p x
-p y
-p a
+x = build_tree(array)
+x.each {|y| puts y.to_s}
 #b = x.value == z.value
 #p a == b
